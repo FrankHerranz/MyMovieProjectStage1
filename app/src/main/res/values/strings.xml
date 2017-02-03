@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">My Movie Project</string>
+    <string name="refresh">Refresh</string>
+    <string name="license">License</string>
+    <string name="sortOrderMovies">Sort Order</string>
+</resources>
