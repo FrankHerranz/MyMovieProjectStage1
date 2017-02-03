@@ -3,6 +3,7 @@ package com.example.android.mymovieproject;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.android.mymovieproject.dataDAO.FilmDAO;
 import com.example.android.mymovieproject.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
     FilmAdapter mFilmAdapter;
     RecyclerView nMoviesList;
 
+    FilmDAO[] films = new FilmDAO[20];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
         mFilmAdapter = new FilmAdapter(this);
         nMoviesList.setAdapter(mFilmAdapter);
 
-        new FetchMoviesTask().execute(new Integer[]{sortOrderMovies, pageMovies});
+        Integer[] numbers = new Integer[]{sortOrderMovies, pageMovies};
+        new FetchMoviesTask().execute(numbers);
     }
 
     @Override
@@ -74,21 +79,33 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
 
     @Override
     public void onClick(int actualPositionOfFilm) {
-        Context context = this;
-        Toast.makeText(context, Integer.toString(actualPositionOfFilm), Toast.LENGTH_SHORT)
-                .show();
+
+        Context context = MainActivity.this;
+        Class destinationActivity = DetailFilmActivity.class;
+
+        Intent intent = new Intent(context,destinationActivity);
+        intent.putExtra("Title", films[actualPositionOfFilm].getTitle());
+        intent.putExtra("Release date", films[actualPositionOfFilm].getRelease_date());
+        intent.putExtra("Movie poster", films[actualPositionOfFilm].getUrl_movie_poster());
+        intent.putExtra("Vote average", films[actualPositionOfFilm].getVote_average());
+        intent.putExtra("Plot synopsis", films[actualPositionOfFilm].getPlot_synopsis());
+        startActivity(intent);
+
     }
 
-    public class FetchMoviesTask extends AsyncTask<Integer, Void, String[]>{
+    public class FetchMoviesTask extends AsyncTask<Integer, Void, FilmDAO[]>{
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             mLoadingIndicator.setVisibility(View.VISIBLE);
+            Log.i("INFORMACION", "Ha llegado hasta aqui 2");
         }
 
         @Override
-        protected String[] doInBackground(Integer... integers) {
+        protected FilmDAO[] doInBackground(Integer... integers) {
+
+            Log.i("INFORMACION", "Ha llegado hasta aqui 3");
 
             if (integers.length == 0) {
                 Log.e("ERROR NULL", "Error null en integers.length");
@@ -104,14 +121,28 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
 
                 JSONObject movieResults = new JSONObject(jsonMoviesResponse);
                 JSONArray moviesObtainedJSONArray = movieResults.getJSONArray("results");
-                String[] filmImgUrl = new String[20];
+
 
                 for(int i=0; i<moviesObtainedJSONArray.length(); i++){
                     JSONObject jsonObject = moviesObtainedJSONArray.getJSONObject(i);
-                    String moviePath = jsonObject.getString("poster_path");
-                    filmImgUrl[i] = "http://image.tmdb.org/t/p/w500" + moviePath;
+
+                    //We create a FilmDAO object and fill it with the necessary information.
+                    films[i] = new FilmDAO(Integer.parseInt(jsonObject.getString("id")));
+                    Log.i("INFORMACION", "Ha llegado hasta aqui 3");
+
+                    films[i].setTitle(jsonObject.getString("original_title"));
+                    Log.i("INFORMACION", "Ha llegado hasta aqui 4");
+                    films[i].setRelease_date(jsonObject.getString("release_date"));
+                    Log.i("INFORMACION", "Ha llegado hasta aqui 5");
+                    films[i].setUrl_movie_poster(jsonObject.getString("poster_path"));
+                    Log.i("INFORMACION", "Ha llegado hasta aqui 6");
+                    films[i].setVote_average(Double.parseDouble(jsonObject.getString("vote_average")));
+                    Log.i("INFORMACION", "Ha llegado hasta aqui 7");
+                    films[i].setPlot_synopsis(jsonObject.getString("overview"));
+                    Log.i("INFORMACION", "Ha llegado hasta aqui 8");
+
                 }
-                return filmImgUrl;
+                return films;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -122,12 +153,12 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
         }
 
         @Override
-        protected void onPostExecute(String[] strings) {
+        protected void onPostExecute(FilmDAO[] films) {
             mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if(strings != null){
+            if(films != null){
                 //Everything is ok
-                Log.i("DATOS", "Informacion de strings " + Arrays.toString(strings));
-                mFilmAdapter.setFilmsData(strings);
+                Log.i("DATOS", "Informacion de films " + Arrays.toString(films));
+                mFilmAdapter.setFilmsData(films);
             }else{
                 //An error has occured
                 Log.e("ERROR NULL", "Error null en string de onPostExecute");
@@ -152,7 +183,9 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
                         .setSingleChoiceItems(new String[]{"By most popular", "By highest rated"}, sortOrderMovies,new DialogInterface.OnClickListener(){
                             public void onClick(DialogInterface dialog, int whichOrderIsSelected){
                                 sortOrderMovies = whichOrderIsSelected;
-                                new FetchMoviesTask().execute(new Integer[]{sortOrderMovies, pageMovies});
+                                Log.i("INFORMACION", "El usuario ha pulsado " + sortOrderMovies);
+                                Integer[] numbers = new Integer[]{sortOrderMovies, pageMovies};
+                                new FetchMoviesTask().execute(numbers);
                             }
                         } );
                 AlertDialog dialogSortOrderToShow = builderSortMoviesDialog.create();

@@ -1,13 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_detail_film"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.android.mymovieproject.DetailFilmActivity">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_detail_film"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.android.mymovieproject.DetailFilmActivity">
 
-</RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie_poster"
+            />
+        <TextView
+            android:id="@+id/title_film"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="36sp"
+            android:layout_toRightOf="@+id/movie_poster"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textIsSelectable="true"
+            />
+        <TextView
+            android:paddingTop="16dp"
+            android:id="@+id/release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:layout_below="@+id/movie_poster"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:paddingTop="16dp"
+            android:id="@+id/vote_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:layout_below="@+id/release_date"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"/>
+    <ScrollView
+        android:layout_below="@+id/vote_average"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingTop="12dp">
+        <TextView
+            android:id="@+id/plot_synopsis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+    </ScrollView>
+
+
+    </RelativeLayout>

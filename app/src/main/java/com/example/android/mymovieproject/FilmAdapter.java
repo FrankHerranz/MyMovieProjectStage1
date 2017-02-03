@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
+import com.example.android.mymovieproject.dataDAO.FilmDAO;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
@@ -22,7 +23,7 @@ import java.util.Arrays;
 
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmAdapterViewHolder> {
 
-    private String[] filmsData;
+    private FilmDAO[] filmsData;
 
     private final FilmAdapterOnClickHandler mClickHandler;
 
@@ -43,19 +44,17 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmAdapterVie
             super(itemView);
             filmThumbnailView = (ImageView)itemView.findViewById(R.id.film_image);
             localView = itemView;
-            Log.i("INFORMACION", "Ha llegado 3");
             itemView.setOnClickListener(this);
         }
 
         public void bind(int listIndex){
-            Log.i("DATOS", "listIndex es " + listIndex);
-            Log.i("DATOS", "Los datos " + Arrays.toString(filmsData));
-            Picasso.with(localView.getContext()).load(Uri.parse(filmsData[listIndex])).into(filmThumbnailView);
+            Log.i("INFORMATION", "En el bind() del holder se usa " + filmsData[listIndex] + " y listIndex es " + listIndex);
+            Picasso.with(localView.getContext()).setIndicatorsEnabled(true);
+            Picasso.with(localView.getContext()).load(Uri.parse("http://image.tmdb.org/t/p/w500" + filmsData[listIndex].getUrl_movie_poster())).into(filmThumbnailView);
         }
 
         @Override
         public void onClick(View view) {
-            Log.i("INFORMACION", "Click 1");
             int adapterPosition = getAdapterPosition();
             mClickHandler.onClick(adapterPosition);
         }
@@ -86,7 +85,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmAdapterVie
         return filmsData.length;
     }
 
-    public void setFilmsData(String [] filmsDataReceived){
+    public void setFilmsData(FilmDAO[] filmsDataReceived){
         Log.i("INFORMACION", "Ha llegado 2");
         filmsData = filmsDataReceived;
         notifyDataSetChanged();
