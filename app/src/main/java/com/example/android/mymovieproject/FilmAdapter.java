@@ -48,7 +48,6 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmAdapterVie
         }
 
         public void bind(int listIndex){
-            Log.i("INFORMATION", "En el bind() del holder se usa " + filmsData[listIndex] + " y listIndex es " + listIndex);
             Picasso.with(localView.getContext()).setIndicatorsEnabled(true);
             Picasso.with(localView.getContext()).load(Uri.parse("http://image.tmdb.org/t/p/w500" + filmsData[listIndex].getUrl_movie_poster())).into(filmThumbnailView);
         }
@@ -74,7 +73,6 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmAdapterVie
 
     @Override
     public void onBindViewHolder(FilmAdapterViewHolder holder, int position) {
-        Log.i("INFORMACION", "Ha llegado 4");
         holder.bind(position);
     }
 
@@ -86,7 +84,6 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmAdapterVie
     }
 
     public void setFilmsData(FilmDAO[] filmsDataReceived){
-        Log.i("INFORMACION", "Ha llegado 2");
         filmsData = filmsDataReceived;
         notifyDataSetChanged();
     }

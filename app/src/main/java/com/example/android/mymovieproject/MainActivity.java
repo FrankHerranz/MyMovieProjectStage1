@@ -99,16 +99,14 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
         protected void onPreExecute() {
             super.onPreExecute();
             mLoadingIndicator.setVisibility(View.VISIBLE);
-            Log.i("INFORMACION", "Ha llegado hasta aqui 2");
         }
 
         @Override
         protected FilmDAO[] doInBackground(Integer... integers) {
 
-            Log.i("INFORMACION", "Ha llegado hasta aqui 3");
 
             if (integers.length == 0) {
-                Log.e("ERROR NULL", "Error null en integers.length");
+                Log.e("ERROR NULL", "Error in integers.length");
                 return null;
             }
 
@@ -128,19 +126,13 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
 
                     //We create a FilmDAO object and fill it with the necessary information.
                     films[i] = new FilmDAO(Integer.parseInt(jsonObject.getString("id")));
-                    Log.i("INFORMACION", "Ha llegado hasta aqui 3");
+
 
                     films[i].setTitle(jsonObject.getString("original_title"));
-                    Log.i("INFORMACION", "Ha llegado hasta aqui 4");
                     films[i].setRelease_date(jsonObject.getString("release_date"));
-                    Log.i("INFORMACION", "Ha llegado hasta aqui 5");
                     films[i].setUrl_movie_poster(jsonObject.getString("poster_path"));
-                    Log.i("INFORMACION", "Ha llegado hasta aqui 6");
                     films[i].setVote_average(Double.parseDouble(jsonObject.getString("vote_average")));
-                    Log.i("INFORMACION", "Ha llegado hasta aqui 7");
                     films[i].setPlot_synopsis(jsonObject.getString("overview"));
-                    Log.i("INFORMACION", "Ha llegado hasta aqui 8");
-
                 }
                 return films;
 
@@ -161,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
                 mFilmAdapter.setFilmsData(films);
             }else{
                 //An error has occured
-                Log.e("ERROR NULL", "Error null en string de onPostExecute");
+                Log.e("ERROR NULL", "Error null in onPostExecute");
             }
         }
     }
@@ -183,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
                         .setSingleChoiceItems(new String[]{"By most popular", "By highest rated"}, sortOrderMovies,new DialogInterface.OnClickListener(){
                             public void onClick(DialogInterface dialog, int whichOrderIsSelected){
                                 sortOrderMovies = whichOrderIsSelected;
-                                Log.i("INFORMACION", "El usuario ha pulsado " + sortOrderMovies);
                                 Integer[] numbers = new Integer[]{sortOrderMovies, pageMovies};
                                 new FetchMoviesTask().execute(numbers);
                             }

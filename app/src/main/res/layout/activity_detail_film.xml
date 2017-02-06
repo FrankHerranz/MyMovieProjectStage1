@@ -12,6 +12,7 @@
             android:id="@+id/movie_poster"
             />
         <TextView
+            android:paddingTop="32dp"
             android:id="@+id/title_film"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
