@@ -48,7 +48,6 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmAdapterVie
         }
 
         public void bind(int listIndex){
-            Log.d("DEBUG INFO", filmsData[listIndex].getTitle());
             Picasso.with(localView.getContext()).load(Uri.parse("http://image.tmdb.org/t/p/w500" + filmsData[listIndex].getUrl_movie_poster())).placeholder(R.mipmap.ic_launcher).into(filmThumbnailView);
         }
 
@@ -84,7 +83,6 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmAdapterVie
     }
 
     public void setFilmsData(FilmDAO[] filmsDataReceived){
-        Log.d("DEBUG INFO", "Values of "+  filmsDataReceived[0].getTitle() + filmsDataReceived[1].getTitle());
         filmsData = filmsDataReceived;
         notifyDataSetChanged();
     }
