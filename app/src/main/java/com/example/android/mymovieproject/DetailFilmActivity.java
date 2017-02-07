@@ -72,7 +72,7 @@ public class DetailFilmActivity extends AppCompatActivity {
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
 
-        Picasso.with(DetailFilmActivity.this).load(Uri.parse("http://image.tmdb.org/t/p/w342" + url_movie_poster)).into(filmThumbnail);
+        Picasso.with(DetailFilmActivity.this).load(Uri.parse("http://image.tmdb.org/t/p/w342" + url_movie_poster)).placeholder(R.mipmap.ic_launcher).into(filmThumbnail);
         vTitle.setText(title);
         vReleaseDate.setText("Release Date: " + release_date);
         vVoteAverage.setText("Vote Average: " + Double.toString(vote_average));

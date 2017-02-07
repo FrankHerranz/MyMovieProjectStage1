@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
 
         @Override
         protected void onPreExecute() {
+            Log.d("DEBUG INFO", "onPreExcute entered");
             super.onPreExecute();
             mLoadingIndicator.setVisibility(View.VISIBLE);
         }
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
         @Override
         protected FilmDAO[] doInBackground(Integer... integers) {
 
-
+            Log.d("DEBUG INFO", "doInBackground entered with " + integers[0] + " " +integers[1]);
             if (integers.length == 0) {
                 Log.e("ERROR NULL", "Error in integers.length");
                 return null;
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
                         .setSingleChoiceItems(new String[]{"By most popular", "By highest rated"}, sortOrderMovies,new DialogInterface.OnClickListener(){
                             public void onClick(DialogInterface dialog, int whichOrderIsSelected){
                                 sortOrderMovies = whichOrderIsSelected;
+                                Log.d("SORT ORDER", String.valueOf(sortOrderMovies));
                                 Integer[] numbers = new Integer[]{sortOrderMovies, pageMovies};
                                 new FetchMoviesTask().execute(numbers);
                             }
