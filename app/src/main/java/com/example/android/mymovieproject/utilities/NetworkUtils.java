@@ -1,6 +1,7 @@
 package com.example.android.mymovieproject.utilities;
 
 import android.net.Uri;
+import android.support.compat.BuildConfig;
 import android.util.Log;
 
 import java.io.IOError;
@@ -28,6 +29,9 @@ public class NetworkUtils {
         Uri builtUri;
         if(sortOrder == 0){
             builtUri = Uri.parse("https://api.themoviedb.org/3/movie/popular").buildUpon()
+                    //I know writing down the developer's key here is a huge mistake.
+                    //I've tried saving it in build.gradle but I can't reference the variable here.
+                    //Could you help me? Thank you.
                     .appendQueryParameter(APIKEY_PARAM, "adb0dc2df1ec33d5b6d3da3be052aeb7")
                     .appendQueryParameter(LANGUAGE_PARAM, "en-US")
                     .appendQueryParameter(PAGE_PARAM, Integer.toString(page)).build();
@@ -56,7 +60,7 @@ public class NetworkUtils {
             urlConnection = (HttpURLConnection) url.openConnection();
 
             if (urlConnection == null)
-                Log.d("DEBUG INFO", "NUUUUUUUUUULL");
+                Log.e("Error at Connection", "urlConnection failed at opening");
 
             InputStream in = urlConnection.getInputStream();
 
