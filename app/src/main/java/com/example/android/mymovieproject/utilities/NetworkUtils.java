@@ -54,6 +54,10 @@ public class NetworkUtils {
         HttpURLConnection urlConnection = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
+
+            if (urlConnection == null)
+                Log.d("DEBUG INFO", "NUUUUUUUUUULL");
+
             InputStream in = urlConnection.getInputStream();
 
             Scanner scanner = new Scanner(in);

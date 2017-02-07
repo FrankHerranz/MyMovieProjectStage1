@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
             try {
                 String jsonMoviesResponse = NetworkUtils.getResponseFromHttpUrl(moviesRequestUrl);
 
+
                 JSONObject movieResults = new JSONObject(jsonMoviesResponse);
                 JSONArray moviesObtainedJSONArray = movieResults.getJSONArray("results");
 
@@ -150,7 +151,12 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.FilmA
                 mFilmAdapter.setFilmsData(films);
             }else{
                 //An error has occured
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage(R.string.errorHappened);
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 Log.e("ERROR NULL", "Error null in onPostExecute");
+
             }
         }
     }

@@ -3,4 +3,6 @@
     <string name="refresh">Refresh</string>
     <string name="license">License</string>
     <string name="sortOrderMovies">Sort Order</string>
+    <string name="errorHappened">An error has occured. Please check your Internet connection.
+    </string>
 </resources>
